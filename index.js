@@ -16,12 +16,20 @@ module.exports = function() {
         var options = {};
         var globals;
 
+        // FIXME: jshint not concurrency-safe? use serial map?
         var success = jshint(resource.data(), options, globals);
         return createReport({
             resource: resource,
             type: 'test',
             success: success,
-            errors: jshint.errors
+            errors: jshint.errors.map(function(error) {
+                return {
+                    line: error.line,
+                    column: error.character,
+                    message: error.code + ': ' + error.raw,
+                    context: error.evidence
+                };
+            })
         });
     });
 };
