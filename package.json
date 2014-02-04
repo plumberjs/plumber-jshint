@@ -4,7 +4,7 @@
   "description": "JSHint operation for Plumber pipelines",
   "main": "index",
   "dependencies": {
-    "plumber": "~0.1.1",
+    "plumber": "~0.2.4",
     "jshint": "~2.4.0"
   },
   "scripts": {
