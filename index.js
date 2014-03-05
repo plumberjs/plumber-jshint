@@ -1,6 +1,5 @@
+var operation = require('plumber').operation;
 var Report = require('plumber').Report;
-
-var mapEachResource = require('plumber').mapEachResource;
 
 var jshint = require('jshint').JSHINT;
 
@@ -11,7 +10,7 @@ function createReport(params) {
 
 
 module.exports = function() {
-    return mapEachResource(function(resource) {
+    return operation.map(function(resource) {
         // TODO: if necessary, expose as operation parameters
         var options = {};
         var globals;
