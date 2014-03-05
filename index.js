@@ -8,6 +8,10 @@ function createReport(params) {
     return new Report(params);
 }
 
+function identity(x) {
+    return x;
+}
+
 
 module.exports = function() {
     return operation.map(function(resource) {
@@ -21,7 +25,8 @@ module.exports = function() {
             resource: resource,
             type: 'test',
             success: success,
-            errors: jshint.errors.map(function(error) {
+            // for some reason, sometimes get `null' in the list
+            errors: jshint.errors.filter(identity).map(function(error) {
                 return {
                     line: error.line,
                     column: error.character,
