@@ -4,8 +4,10 @@
   "description": "JSHint operation for Plumber pipelines",
   "main": "index",
   "dependencies": {
+    "highland": "~1.25.4",
+    "jshint": "~2.4.0",
     "plumber": "~0.3.0",
-    "jshint": "~2.4.0"
+    "rcloader": "~0.1.2"
   },
   "devDependencies": {
     "plumber-util-test": "~0.3.0",
