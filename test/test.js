@@ -3,6 +3,7 @@ chai.should();
 
 
 var runOperation = require('plumber-util-test').runOperation;
+var completeWithResources = require('plumber-util-test').completeWithResources;
 
 var Resource = require('plumber').Resource;
 var Report = require('plumber').Report;
@@ -12,6 +13,11 @@ var jshint = require('..');
 function createResource(params) {
     return new Resource(params);
 }
+
+function resourcesError() {
+  chai.assert(false, "error in resources observable");
+}
+
 
 describe('jshint', function(){
     it('should be a function', function(){
@@ -34,14 +40,13 @@ describe('jshint', function(){
 
 
         it('should return a successful report', function(done){
-            output.toArray(function(reports) {
+            completeWithResources(output, function(reports) {
                 reports.length.should.equal(1);
                 reports[0].should.be.instanceof(Report);
                 reports[0].type.should.equal('test');
                 reports[0].success.should.equal(true);
                 reports[0].errors.length.should.equal(0);
-                done();
-            });
+            }, resourcesError, done);
         });
     });
 
@@ -57,18 +62,17 @@ describe('jshint', function(){
 
 
         it('should return a report of failure', function(done){
-            output.toArray(function(reports) {
+            completeWithResources(output, function(reports) {
                 reports.length.should.equal(1);
                 reports[0].should.be.instanceof(Report);
                 reports[0].type.should.equal('test');
                 reports[0].success.should.equal(false);
                 reports[0].writtenResource.should.equal(resource);
-                done();
-            });
+            }, resourcesError, done);
         });
 
         it('should return all the errors', function(done){
-            output.toArray(function(reports) {
+            completeWithResources(output, function(reports) {
                 reports[0].errors.length.should.equal(2);
                 reports[0].errors.should.deep.equal([{
                     line: 1,
@@ -81,8 +85,7 @@ describe('jshint', function(){
                     message: 'W033: Missing semicolon.',
                     context: 'var y = 4'
                 }]);
-                done();
-            });
+            }, resourcesError, done);
         });
 
     });
@@ -101,7 +104,7 @@ describe('jshint', function(){
 
 
         it('should return a report of failure for each resource', function(done){
-            output.toArray(function(reports) {
+            completeWithResources(output, function(reports) {
                 reports.length.should.equal(2);
                 reports[0].should.be.instanceof(Report);
                 reports[0].type.should.equal('test');
@@ -111,12 +114,11 @@ describe('jshint', function(){
                 reports[1].type.should.equal('test');
                 reports[1].success.should.equal(false);
                 reports[1].writtenResource.should.equal(resource2);
-                done();
-            });
+            }, resourcesError, done);
         });
 
         it('should return all the errors', function(done){
-            output.toArray(function(reports) {
+            completeWithResources(output, function(reports) {
                 reports[0].errors.length.should.equal(2);
                 reports[0].errors.should.deep.equal([{
                     line: 1,
@@ -137,9 +139,7 @@ describe('jshint', function(){
                     message: 'W033: Missing semicolon.',
                     context: 'var foo = "bar"'
                 }]);
-
-                done();
-            });
+            }, resourcesError, done);
         });
 
     });
