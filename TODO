@@ -1,0 +1,3 @@
+* Mock dev’s global .jshintrc file (`~/.jshintrc`) as this can cause the tests
+to fail
+* Write tests for global/parent .jshintrc files
