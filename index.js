@@ -1,7 +1,7 @@
-var operation = require('plumber').operation;
-var Report = require('plumber').Report;
+var plumber = require('plumber');
+var operation = plumber.operation;
+var Report = plumber.Report;
 var RcLoader = require('rcloader');
-var highland = require('highland');
 
 var jshint = require('jshint').JSHINT;
 
@@ -28,7 +28,7 @@ module.exports = function() {
                 }
             });
 
-            var loadRcConfigFor = highland.wrapCallback(rcLoader.for);
+            var loadRcConfigFor = plumber.Rx.Observable.fromNodeCallback(rcLoader.for);
             return loadRcConfigFor(resource.path().absolute()).map(function (rcConfig) {
                 var globals;
                 if (rcConfig.globals) {
