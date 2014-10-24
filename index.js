@@ -21,6 +21,7 @@ module.exports = function() {
         return resources.flatMap(function(resource) {
             var rcLoader = new RcLoader('.jshintrc', {}, {
                 loader: function (path) {
+                    // TODO: Make errors happen in Rx context. How?
                     var config = jshintcli.loadConfig(path);
                     // Redundant property added by JSHint
                     delete config.dirname;
