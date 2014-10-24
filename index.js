@@ -14,13 +14,13 @@ function identity(x) {
     return x;
 }
 
+var jshintcli = require('jshint/src/cli');
 
 module.exports = function() {
     return operation(function(resources) {
         return resources.flatMap(function(resource) {
             var rcLoader = new RcLoader('.jshintrc', {}, {
                 loader: function (path) {
-                    var jshintcli = require('jshint/src/cli');
                     var config = jshintcli.loadConfig(path);
                     // Redundant property added by JSHint
                     delete config.dirname;
