@@ -1,6 +1,6 @@
 {
   "name": "plumber-jshint",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "JSHint operation for Plumber pipelines",
   "main": "index",
   "dependencies": {
