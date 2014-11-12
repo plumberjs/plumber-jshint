@@ -1,5 +1,6 @@
-var operation = require('plumber').operation;
-var Report = require('plumber').Report;
+var plumber = require('plumber');
+var operation = plumber.operation;
+var Report = plumber.Report;
 
 var jshint = require('jshint').JSHINT;
 
@@ -12,15 +13,22 @@ function identity(x) {
     return x;
 }
 
+var jshintcli = require('jshint/src/cli');
 
 module.exports = function() {
     return operation.map(function(resource) {
-        // TODO: if necessary, expose as operation parameters
-        var options = {};
+        var config = jshintcli.getConfig(resource.path().absolute());
+        // Redundant property added by JSHint
+        delete config.dirname;
+
         var globals;
+        if (config.globals) {
+          globals = config.globals;
+          delete config.globals;
+        }
 
         // FIXME: jshint not concurrency-safe? use serial map?
-        var success = jshint(resource.data(), options, globals);
+        var success = jshint(resource.data(), config, globals);
         return createReport({
             resource: resource,
             type: 'test',

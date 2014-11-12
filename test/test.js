@@ -15,7 +15,7 @@ function createResource(params) {
 }
 
 function resourcesError() {
-  chai.assert(false, "error in resources observable");
+    chai.assert(false, "error in resources observable");
 }
 
 
